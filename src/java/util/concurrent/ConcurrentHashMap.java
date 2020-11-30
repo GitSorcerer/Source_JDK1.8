@@ -2251,7 +2251,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
      * because resizings are lagging additions.
      *
      * @param x the count to add
-     * @param check if <0, don't check resize, if <= 1 only check if uncontended
+     * @param check if <0, don't check resize, if <= 1 only check if uncontended    如果<0，则不检查调整大小，如果<= 1，仅检查是否无竞争
      */
     private final void addCount(long x, int check) {
         CounterCell[] as; long b, s;

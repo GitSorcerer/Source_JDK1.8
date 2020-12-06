@@ -2361,18 +2361,18 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                     else {//如果叔叔节点不为空
                         TreeNode<K, V> sl = xpr.left, sr = xpr.right;
                         if ((sr == null || !sr.red) &&
-                                (sl == null || !sl.red)) {
+                                (sl == null || !sl.red)) {//如果叔叔节点没有子节点 或者都为黑节点
                             xpr.red = true;
-                            x = xp;
+                            x = xp;//继续往上递归
                         } else {
-                            if (sr == null || !sr.red) {
-                                if (sl != null)
+                            if (sr == null || !sr.red) {//如果叔叔节点的右节点是黑色
+                                if (sl != null)//先变色
                                     sl.red = false;
                                 xpr.red = true;
-                                root = rotateRight(root, xpr);
+                                root = rotateRight(root, xpr);//后右旋
                                 xpr = (xp = x.parent) == null ?
                                         null : xp.right;
-                            }
+                            }//先变色
                             if (xpr != null) {
                                 xpr.red = (xp == null) ? false : xp.red;
                                 if ((sr = xpr.right) != null)
@@ -2380,7 +2380,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                             }
                             if (xp != null) {
                                 xp.red = false;
-                                root = rotateLeft(root, xp);
+                                root = rotateLeft(root, xp);//后左旋
                             }
                             x = root;
                         }

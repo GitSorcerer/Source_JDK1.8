@@ -416,81 +416,81 @@ public class RedBlackTree<K extends Comparable<K>, V> {
     /**
      * 删除调整
      *
-     * @param p 调整的节点
+     * @param x 调整的节点
      */
-    private void balanceDeletion(RBNode<K, V> p) {
+    private void balanceDeletion(RBNode<K, V> x) {
         //p不等于根节点并且p是黑色
-        while (p != root && !getColor(p)) {
-            //p是父亲的左节点
-            if (p == getLeft(getParent(p))) {
+        while (x != root && !getColor(x)) {
+            //x是父亲的左节点
+            if (x == getLeft(getParent(x))) {
                 //叔叔节点
-                RBNode<K, V> ppr;
-                //如果叔叔节点是红色,两个子节点是黑色 不能直接借
-                if ((ppr = getRight(getParent(p))) != null && getColor(ppr)) {
-                    //叔叔节点变黑色
-                    setColor(ppr, false);
+                RBNode<K, V> xpr;
+                //如果兄弟节点是红色,两个子节点是黑色 不能直接借
+                if ((xpr = getRight(getParent(x))) != null && getColor(xpr)) {
+                    //兄弟点变黑色
+                    setColor(xpr, false);
                     //p父节点变红
-                    setColor(getParent(p), true);
-                    //围绕p的父节点左旋
-                    rotateLeft(getParent(p));
-                    ppr = getRight(getParent(p));
+                    setColor(getParent(x), true);
+                    //围绕x的父节点左旋
+                    rotateLeft(getParent(x));
+                    xpr = getRight(getParent(x));
                 }
-                //判断叔叔节点是否存在两个黑色节点(或者两个子节点都为空)
-                if (!getColor(getLeft(ppr)) && !getColor(getRight(ppr))) {
-                    //将叔叔点变成红色
-                    setColor(ppr, true);
+                //判断兄弟节点是否存在两个黑色节点(或者两个子节点都为空)
+                if (!getColor(getLeft(xpr)) && !getColor(getRight(xpr))) {
+                    //将兄弟点变成红色
+                    setColor(xpr, true);
                     //根据p的父节点继续往上递归
-                    p = getParent(p);
+                    x = getParent(x);
                 } else {
-                    //叔叔节点的右节点如果是黑色
-                    if (!getColor(getRight(ppr))) {
-                        //叔叔节点变红
-                        setColor(ppr, true);
-                        //叔叔节点的左节点变黑
-                        setColor(getLeft(ppr), false);
-                        //将叔叔节点右旋
-                        rotateRight(ppr);
-                        ppr = getRight(getParent(p));
+                    //兄弟节点的右节点如果是黑色
+                    if (!getColor(getRight(xpr))) {
+                        //兄弟节点变红
+                        setColor(xpr, true);
+                        //兄弟节点的左节点变黑
+                        setColor(getLeft(xpr), false);
+                        //将兄弟节点右旋
+                        rotateRight(xpr);
+                        xpr = getRight(getParent(x));
                     }
-                    //叔叔节点颜色变为p父节点颜色
-                    setColor(ppr, getColor(getParent(p)));
+                    //兄弟节点颜色变为p父节点颜色
+                    setColor(xpr, getColor(getParent(x)));
                     //p父节点变黑
-                    setColor(getParent(p), false);
-                    //叔叔节点的右节点变黑
-                    setColor(getRight(ppr), false);
+                    setColor(getParent(x), false);
+                    //兄弟节点的右节点变黑
+                    setColor(getRight(xpr), false);
                     //根据p的父节点节点左旋
-                    rotateLeft(getParent(p));
+                    rotateLeft(getParent(x));
                     break;
                 }
             } else {
-                RBNode<K, V> ppl;
-                if ((ppl = getLeft(getParent(p))) != null && getColor(ppl)) {
-                    setColor(ppl, false);
-                    setColor(getParent(p), true);
-                    rotateRight(getParent(p));
-                    ppl = getLeft(getParent(p));
+                RBNode<K, V> ppr;
+                if ((ppr = getLeft(getParent(x))) != null && getColor(ppr)) {
+                    setColor(ppr, false);
+                    setColor(getParent(x), true);
+                    rotateRight(getParent(x));
+                    ppr = getLeft(getParent(x));
                 }
-                if (!getColor(getLeft(ppl)) && !getColor(getRight(ppl))) {
-                    setColor(ppl, true);
-                    p = getParent(p);
+                if (!getColor(getLeft(ppr)) && !getColor(getRight(ppr))) {
+                    setColor(ppr, true);
+                    x = getParent(x);
                 } else {
-                    if (!getColor(getLeft(ppl))) {
-                        setColor(ppl, true);
-                        setColor(getRight(ppl), false);
-                        rotateLeft(ppl);
-                        ppl = getLeft(getParent(p));
+                    if (!getColor(getLeft(ppr))) {
+                        setColor(ppr, true);
+                        setColor(getRight(ppr), false);
+                        rotateLeft(ppr);
+                        ppr = getLeft(getParent(x));
                     }
-                    setColor(ppl, getColor(getParent(p)));
-                    setColor(getParent(p), false);
-                    setColor(getLeft(ppl), false);
-                    rotateRight(getParent(p));
+                    setColor(ppr, getColor(getParent(x)));
+                    setColor(getParent(x), false);
+                    setColor(getLeft(ppr), false);
+                    rotateRight(getParent(x));
                     break;
                 }
             }
 
         }
         //将p节点变为黑色
-        setColor(p, false);
+        setColor(x, false);
 
     }
 

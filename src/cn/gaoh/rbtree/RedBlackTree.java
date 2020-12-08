@@ -25,8 +25,8 @@ public class RedBlackTree<K extends Comparable<K>, V> {
         private RBNode<K, V> right;//右节点
         private RBNode<K, V> parent;//父节点
         private boolean red = true;//颜色  默认为红色
-        private K k;//key
-        private V v;//value
+        private K kay;//key
+        private V val;//value
 
         public RBNode<K, V> getLeft() {
             return left;
@@ -60,25 +60,25 @@ public class RedBlackTree<K extends Comparable<K>, V> {
             this.red = red;
         }
 
-        public K getK() {
-            return k;
+        public K getKey() {
+            return kay;
         }
 
-        public void setK(K k) {
-            this.k = k;
+        public void setKey(K kay) {
+            this.kay = kay;
         }
 
-        public V getV() {
-            return v;
+        public V getVal() {
+            return val;
         }
 
-        public void setV(V v) {
-            this.v = v;
+        public void setVal(V val) {
+            this.val = val;
         }
 
-        public RBNode(K k, V v) {
-            this.k = k;
-            this.v = v == null ? (V) k : v;
+        public RBNode(K kay, V val) {
+            this.kay = kay;
+            this.val = val == null ? (V) kay : val;
         }
 
         public RBNode() {
@@ -181,19 +181,19 @@ public class RedBlackTree<K extends Comparable<K>, V> {
         RBNode<K, V> parent;
         do {
             parent = _root;
-            if (kay.compareTo(_root.k) < 0) {
+            if (kay.compareTo(_root.kay) < 0) {
                 _root = _root.left;
-            } else if (kay.compareTo(_root.k) > 0) {
+            } else if (kay.compareTo(_root.kay) > 0) {
                 _root = _root.right;
             } else {
-                _root.v = val;
+                _root.val = val;
                 return _root;
             }
         } while (_root != null);
 
         RBNode<K, V> child = new RBNode<>(kay, val);
         child.parent = parent;
-        if (kay.compareTo(parent.k) < 0) {
+        if (kay.compareTo(parent.kay) < 0) {
             parent.left = child;
         } else {
             parent.right = child;
@@ -286,8 +286,8 @@ public class RedBlackTree<K extends Comparable<K>, V> {
             //找到前驱节点
             RBNode<K, V> node = predecessor(p);
             //将node值赋给p
-            p.k = node.k;
-            p.v = node.v;
+            p.kay = node.kay;
+            p.val = node.val;
             p = node;
         }
         //p节点的替换节点（也就是p的子节点，如果存在只可能有一个）
@@ -330,16 +330,16 @@ public class RedBlackTree<K extends Comparable<K>, V> {
     /**
      * 根据key找到对应的节点
      *
-     * @param k 寻找的key
+     * @param kay 寻找的key
      * @return 找到的节点值
      */
-    private RBNode<K, V> getNodeByKey(K k) {
-        if (k != null) {
+    private RBNode<K, V> getNodeByKey(K kay) {
+        if (kay != null) {
             RBNode<K, V> temp = root;
             do {
-                if (k.compareTo(temp.k) < 0) {
+                if (kay.compareTo(temp.kay) < 0) {
                     temp = temp.left;
-                } else if (k.compareTo(temp.k) > 0) {
+                } else if (kay.compareTo(temp.kay) > 0) {
                     temp = temp.right;
                 } else {
                     return temp;

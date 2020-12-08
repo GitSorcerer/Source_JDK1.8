@@ -30,9 +30,9 @@ public class RedBlackTreeOperation {
 //       res[rowIndex][columnIndex] = String.valueOf(currNode.getValue());
         //1、颜色表示
         if(!currNode.isRed()){//黑色，加色后错位比较明显
-                res[rowIndex][columnIndex] = ("\033[30;3m" + currNode.getK()+"\033[0m") ;
+                res[rowIndex][columnIndex] = ("\033[30;3m" + currNode.getKey()+"\033[0m") ;
         }else {
-                res[rowIndex][columnIndex] = ("\033[31;3m" + currNode.getV()+"\033[0m") ;
+                res[rowIndex][columnIndex] = ("\033[31;3m" + currNode.getVal()+"\033[0m") ;
         }
         //2、R,B表示
 //        res[rowIndex][columnIndex] = String.valueOf(currNode.getValue()+"-"+(currNode.isColor()?"B":"R")+"");

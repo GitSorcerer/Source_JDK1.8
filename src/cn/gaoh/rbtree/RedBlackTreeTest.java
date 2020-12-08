@@ -11,9 +11,9 @@ import java.util.Scanner;
 public class RedBlackTreeTest {
     public static void main(String[] args) {
         //新增节点
-//        insertOpt();
+        insertOpt();
         //删除节点
-        deleteOpt();
+//        deleteOpt();
     }
 
     /**

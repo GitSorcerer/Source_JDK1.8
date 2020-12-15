@@ -1,11 +1,6 @@
 package cn.gaoh.rbtree;
 
-/******************************
- *
- * 码炫课堂技术交流Q群：963060292
- * 主讲：smart哥
- *
- ******************************/
+
 public class RedBlackTreeOperation {
     /*
     树的结构示例：

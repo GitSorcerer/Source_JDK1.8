@@ -2,18 +2,13 @@ package cn.gaoh.rbtree;
 
 import java.util.Scanner;
 
-/******************************
- *
- * 码炫课堂技术交流Q群：963060292
- * 主讲：smart哥
- *
- ******************************/
+
 public class RedBlackTreeTest {
     public static void main(String[] args) {
         //新增节点
-        insertOpt();
+//        insertOpt();
         //删除节点
-//        deleteOpt();
+        deleteOpt();
     }
 
     /**

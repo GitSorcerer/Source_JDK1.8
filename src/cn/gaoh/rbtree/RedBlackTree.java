@@ -88,74 +88,78 @@ public class RedBlackTree<K extends Comparable<K>, V> {
     /**
      * 右旋
      * <p>
-     * pp                   pp
-     * /                     /
-     * p                     pl
-     * /  \                  /   \
-     * pl   pr              ppl     p
-     * / \                          / \
-     * pll plr                      plr  pr
+     *            hp                      hp
+     *            /                       /
+     *           h                       hl
+     *         /  \                    /   \
+     *        hl   hr               hpl     h
+     *        / \                          / \
+     *       hll hlr                      hlr  hr
      *
-     * @param p
+     * @param h 旋转点
      */
-    private void rotateRight(RBNode<K, V> p) {
-        if (p != null) {
-            RBNode<K, V> pl = p.left;
-            p.left = pl.right;
-            //判断pl的右节点是否存在
-            if (pl.right != null) {//将plr变成p的左节点
-                pl.right.parent = p;
+    private void rotateRight(RBNode<K, V> h) {
+        if (h != null) {
+            //hl  h的左节点
+            RBNode<K, V> hl = h.left;
+            //首先将h左孩子节点的右节点挂到h的左节点上
+            h.left = hl.right;
+            //判断hl的右节点是否存在
+            if (hl.right != null) {//存在的话 将hlr变成p的左节点
+                hl.right.parent = h;
             }
-            pl.parent = p.parent;
-            if (p.parent != null) {
-                //p是父亲的左节点
-                if (p == p.parent.left) {
-                    p.parent.left = pl;
+            //h的父节点变为hl的父节点
+            hl.parent = h.parent;
+            if (h.parent != null) {
+                //h是父亲的左节点
+                if (h == h.parent.left) {
+                    h.parent.left = hl;
                 } else {
-                    p.parent.right = pl;
+                    h.parent.right = hl;
                 }
             } else {
-                root = pl;
+                root = hl;
             }
-            //将pl换成p的父节点
-            pl.right = p;
-            p.parent = pl;
+            //h变为左节点变为h的父节点
+            hl.right = h;
+            h.parent = hl;//将hl换成h的父节点
         }
     }
 
     /**
      * 左旋
-     * pp                       pp
-     * /                        /
-     * p                        pr
-     * /  \                     /  \
-     * pl   pr                   p    plr
-     * / \                      / \
-     * pll plr                  pl  pll
+     *             hp                        hp
+     *            /                         /
+     *           h                        hr
+     *         /  \                     /  \
+     *        hl   hr                  h    hlr
+     *             / \                / \
+     *           hll hlr            hl  hll
      *
-     * @param p
+     * @param h 旋转点
      */
-    private void rotateLeft(RBNode<K, V> p) {
-        if (p != null) {
-            RBNode<K, V> pr = p.right;
-            p.right = pr.left;
-            if (pr.left != null) {
-                pr.left.parent = p;
+    private void rotateLeft(RBNode<K, V> h) {
+        if (h != null) {
+            // pr h节点的右节点
+            RBNode<K, V> hr = h.right;
+            h.right = hr.left;
+            if (hr.left != null) {//判断h的右节点是否存在左节点  存在就把它作为
+                hr.left.parent = h;
             }
-            pr.parent = p.parent;
+            hr.parent = h.parent;
 
             RBNode<K, V> pp;
-            if ((pp = p.parent) != null) {
-                if (p == pp.left) {
-                    pp.left = pr;
+            if ((pp = h.parent) != null) {
+                if (h == pp.left) {
+                    pp.left = hr;
                 } else {
-                    pp.right = pr;
+                    pp.right = hr;
                 }
             } else {
-                root = pr;
+                root = hr;
             }
-            p.parent = pr;
-            pr.left = p;
+            h.parent = hr;
+            hr.left = h;
         }
 
     }
@@ -415,7 +419,7 @@ public class RedBlackTree<K extends Comparable<K>, V> {
 
     /**
      * 删除调整
-     *
+     *  左旋是为了把x节点凑成一个3节点或者4节点，这样才能删除x，要不然x单独就是个2节点，在234树里是不能删除的
      * @param x 调整的节点
      */
     private void balanceDeletion(RBNode<K, V> x) {

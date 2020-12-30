@@ -1,6 +1,5 @@
 ## 不瞒你说，我最近跟Java源码杠上了
 
-原创 hansonwong99 [CodeSheep](javascript:void(0);) *3月26日*
 
 ![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLribkNPSZpt28Qic1iagqGy1F24SiaHic3QL8G5WyEtaYPtbtiatTq5Ys0Z3Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 

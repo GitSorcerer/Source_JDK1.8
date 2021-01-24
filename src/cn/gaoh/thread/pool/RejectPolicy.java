@@ -8,5 +8,11 @@ package cn.gaoh.thread.pool;
  */
 @FunctionalInterface
 public interface RejectPolicy<T> {
+    /**
+     * 对外提供策略
+     *
+     * @param queue 队列
+     * @param task  任务
+     */
     void reject(BlockingQueue<T> queue, T task);
 }

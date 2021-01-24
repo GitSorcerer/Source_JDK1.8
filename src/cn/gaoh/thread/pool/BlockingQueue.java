@@ -14,29 +14,41 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class BlockingQueue<T> {
     /**
-     * 任务等待队列
+     * 任务队列
      */
-    private Deque<T> queue = new ArrayDeque<>();
+    private final Deque<T> queue = new ArrayDeque<>();
 
     /**
      * 锁
      */
-    private ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock();
 
     /**
-     * 取任务条件
+     * 队列为空 等待条件
      */
     Condition takeCondition = lock.newCondition();
     /**
-     * 存任务条件
+     * 队列满了 等待条件
      */
     Condition putCondition = lock.newCondition();
 
     /**
      * 容量
      */
-    private int capacity;
+    private final int capacity;
 
+    /**
+     * 默认容量为16
+     */
+    public BlockingQueue() {
+        this.capacity = 1 << 4;
+    }
+
+    /**
+     * 初始化队列容量
+     *
+     * @param capacity 容量
+     */
     public BlockingQueue(int capacity) {
         this.capacity = capacity;
     }
@@ -52,13 +64,15 @@ public class BlockingQueue<T> {
             //如果队列为空就到takeCondition中等待
             while (queue.isEmpty()) {
                 try {
+                    //等待
                     takeCondition.await();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            //取出并移除队列的第一个任务
             T t = queue.removeFirst();
-            //取值后，叫醒putCondition线程
+            //取值后，叫醒存任务线程
             putCondition.signal();
             return t;
         } finally {
@@ -81,7 +95,7 @@ public class BlockingQueue<T> {
             //如果队列为空就到takeCondition中等待
             while (queue.isEmpty()) {
                 try {
-                    //返回剩余时间
+                    //返回剩余时间 假如timeout为3s,当前线程在takeCondition等4s nanos=4-3=-1 超时等待 返回null
                     if (nanos <= 0) {
                         return null;
                     }
@@ -91,6 +105,7 @@ public class BlockingQueue<T> {
                     e.printStackTrace();
                 }
             }
+            //取出并移除队列的第一个任务
             T t = queue.removeFirst();
             //取值后，叫醒putCondition线程
             putCondition.signal();
@@ -104,6 +119,7 @@ public class BlockingQueue<T> {
      * 将任务放入队列
      *
      * @param task 任务
+     * @return 是否存入成功
      */
     public boolean put(T task) {
         try {
@@ -125,7 +141,6 @@ public class BlockingQueue<T> {
         } finally {
             lock.unlock();
         }
-
     }
 
     /**
@@ -139,15 +154,16 @@ public class BlockingQueue<T> {
     public boolean put(T task, long timeout, TimeUnit unit) {
         try {
             lock.lock();
-            //纳秒
+            //转换为纳秒
             long nanos = unit.toNanos(timeout);
             //队列满了
             while (queue.size() == capacity) {
                 try {
+                    //返回剩余时间
                     if (nanos <= 0) {
                         return false;
                     }
-                    //等待
+                    //等待 并获取等待时间
                     nanos = putCondition.awaitNanos(nanos);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -161,7 +177,6 @@ public class BlockingQueue<T> {
         } finally {
             lock.unlock();
         }
-
     }
 
     /**
@@ -180,7 +195,7 @@ public class BlockingQueue<T> {
             } else {
                 //否则放入队列中
                 queue.addLast(task);
-                //唤醒取队列的线程
+                //唤醒获取队列的线程
                 takeCondition.signal();
             }
         } finally {

@@ -18,13 +18,13 @@ public class ThreadPool {
     /**
      * 线程集合：存储正在执行的线程
      */
-    private HashSet<Worker> workers;
-    private RejectPolicy<Runnable> rejectPolicy;
+    private  HashSet<Worker> workers;
+    private  RejectPolicy<Runnable> rejectPolicy;
 
     /**
      * 核心线程数
      */
-    private int coreSize;
+    private  int coreSize;
 
     /**
      * 超时时间

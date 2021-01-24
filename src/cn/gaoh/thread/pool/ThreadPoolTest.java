@@ -10,20 +10,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadPoolTest {
     public static void main(String[] args) {
-        ThreadPool threadPool = new ThreadPool(2, 1000, TimeUnit.MILLISECONDS, 10, ((queue, task) -> {
-//            queue.put(task);
-            queue.put(task, 1500, TimeUnit.SECONDS);
-        }));
+        ThreadPool threadPool = new ThreadPool(Runtime.getRuntime().availableProcessors(), 1000,
+                TimeUnit.MILLISECONDS, 10,
+                ((queue, task) -> {
+                    //queue.put(task);
+                    queue.put(task, 1500, TimeUnit.SECONDS);
+                }));
         for (int i = 0; i < 5; i++) {
             int j = i;
             threadPool.execute(() -> {
                 try {
-//                    TimeUnit.SECONDS.sleep(1500);
-                    Thread.sleep(1000l);
+                    Thread.sleep(1000L);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
                 System.out.println(Thread.currentThread().getName() + ":" + j);
             });
         }

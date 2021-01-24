@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 import java.util.function.IntConsumer;
 
 /**
- * @Description:
+ * @Description: 3 5 倍数输出问题
  * @Author: gaoh
  * @Date: 2021/1/22 14:59
  * @Version: 1.0

@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @Description:
+ * @Description: 哲学家进餐问题
  * @Author: gaoh
  * @Date: 2021/1/22 16:15
  * @Version: 1.0

@@ -4,7 +4,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * @Description:
+ * @Description: 两个线程交替执行
  * @Author: gaoh
  * @Date: 2021/1/21 23:06
  * @Version: 1.0

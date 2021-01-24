@@ -3,7 +3,7 @@ package cn.gaoh.thread.likou;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * @Description:
+ * @Description: 执行顺序
  * @Author: gaoh
  * @Date: 2021/1/21 22:28
  * @Version: 1.0

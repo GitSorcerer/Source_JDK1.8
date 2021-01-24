@@ -3,7 +3,7 @@ package cn.gaoh.thread.likou;
 import java.util.concurrent.Semaphore;
 
 /**
- * @Description:
+ * @Description: 水分子输出问题
  * @Author: gaoh
  * @Date: 2021/1/22 14:42
  * @Version: 1.0

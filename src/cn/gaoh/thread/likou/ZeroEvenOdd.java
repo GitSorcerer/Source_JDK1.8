@@ -4,7 +4,7 @@ import java.util.concurrent.Semaphore;
 import java.util.function.IntConsumer;
 
 /**
- * @Description:
+ * @Description: 0 奇数 偶数 输出问题
  * @Author: gaoh
  * @Date: 2021/1/21 23:48
  * @Version: 1.0

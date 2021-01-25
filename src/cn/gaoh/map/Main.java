@@ -1,4 +1,4 @@
-package cn.gaoh;
+package cn.gaoh.map;
 
 import org.junit.Test;
 
@@ -8,9 +8,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Main {
+    static final int tableSizeFor(int cap) {
+        int n = cap - 1;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        return (n < 0) ? 1 : (n >= 1 << 30) ? 1 << 30 : n + 1;
+    }
 
     //GTKStyle com.sun.java.swing.plaf.gtk.GTKStyle
     public static void main(String[] args) {
+        /*System.out.println(Main.tableSizeFor(6));
         // write your code here
         Map<String, Integer> map = new HashMap<>(6);
         map.put("1", 1);
@@ -48,9 +58,29 @@ public class Main {
 
 
         System.out.println("=====================================================");
-        System.out.println(63&"564646".hashCode());
-        System.out.println("564646".hashCode()&63);
+        System.out.println(63 & "564646".hashCode());
+        System.out.println("564646".hashCode() & 63);*/
 
+        /*System.out.println("78623 & (32-1) =" + (78623 & (32-1)) + "    78623 & (32-1) =" + (78623 & (16-1))+"     78623 & 16=" + (78623 & 16));
+        System.out.println(" 9812 & (32-1) =" + (9812 & (32-1)) +  "     9812 & (32-1) =" + (9812 & (16-1))+ "       9812 & 16=" + (9812 & 16));
+        System.out.println(" 6798 & (32-1) =" + (6798 & (32-1)) +  "     6798 & (32-1) =" + (6798 & (16-1))+ "      6798 & 16=" + (6798 & 16));
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.println("i" + i + " j:" + j);
+                if (i == 2 && j == 2) {
+                    break;
+                }
+            }
+        }*/
+
+        System.out.println(Main.class.getName());
+
+    }
+
+    @Test
+    public void test() {
+        System.out.println("".hashCode());
     }
 
 }

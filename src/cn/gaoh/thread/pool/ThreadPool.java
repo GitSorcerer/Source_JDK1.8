@@ -18,13 +18,13 @@ public class ThreadPool {
     /**
      * 线程集合：存储正在执行的线程
      */
-    private  HashSet<Worker> workers;
-    private  RejectPolicy<Runnable> rejectPolicy;
+    private HashSet<Worker> workers;
+    private RejectPolicy<Runnable> rejectPolicy;
 
     /**
      * 核心线程数
      */
-    private  int coreSize;
+    private int coreSize;
 
     /**
      * 超时时间
@@ -36,6 +36,15 @@ public class ThreadPool {
      */
     private TimeUnit unit;
 
+    /**
+     * 初始化线程池
+     *
+     * @param coreSize     核心数(实际创建执行任务的线程数)
+     * @param timeout      超时时间
+     * @param unit         时间单位
+     * @param capacity     等待队列容量
+     * @param rejectPolicy 拒绝策略
+     */
     public ThreadPool(int coreSize, long timeout, TimeUnit unit, int capacity, RejectPolicy<Runnable> rejectPolicy) {
         this.queue = new BlockingQueue<>(capacity);
         workers = new HashSet<>(coreSize);

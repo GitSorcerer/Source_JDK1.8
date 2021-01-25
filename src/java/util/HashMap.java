@@ -353,17 +353,17 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         if (x instanceof Comparable) {
             Class<?> c;
             Type[] ts, as;
-            Type t;
+            Type t;//Type 是  所有类型 的公共高级接口。它们包括原始类型、参数化类型(泛型)、数组类型、类型变量和基本类型。
             ParameterizedType p;
             if ((c = x.getClass()) == String.class) // bypass checks
                 return c;
-            if ((ts = c.getGenericInterfaces()) != null) {
+            if ((ts = c.getGenericInterfaces()) != null) {//实现的接口类型 返回  Type[]
                 for (int i = 0; i < ts.length; ++i) {
-                    if (((t = ts[i]) instanceof ParameterizedType) &&
-                            ((p = (ParameterizedType) t).getRawType() ==
+                    if (((t = ts[i]) instanceof ParameterizedType) &&//参数化类型(也就是泛型)
+                            ((p = (ParameterizedType) t).getRawType() ==//返回 Type 对象，表示声明此类型的类或接口。  返回最外层<>前面那个类型，例如Comparable<T>，返回的是Comparable类型。
                                     Comparable.class) &&
-                            (as = p.getActualTypeArguments()) != null &&
-                            as.length == 1 && as[0] == c) // type arg is c
+                            (as = p.getActualTypeArguments()) != null &&//返回表示此类型实际类型参数的 Type 对象的数组 也就是获得参数化类型中<>里的类型参数的类型
+                            as.length == 1 && as[0] == c) // type arg is c   如果只有一个泛型 直接取第0个
                         return c;
                 }
             }
@@ -640,7 +640,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         int n, i;
         if ((tab = table) == null || (n = tab.length) == 0)//首次初始化的时候table为null
             n = (tab = resize()).length;//对HashMap进行扩容
-        if ((p = tab[i = (n - 1) & hash]) == null)//根据hash值来确认存放的位置。如果当前位置是空直接添加到table中
+        if ((p = tab[i = (n - 1) & hash]) == null)//根据hash值来确认存放的位置。如果当前位置是空直接添加到table中 PS: 多线程情况下可能出现值覆盖
             tab[i] = newNode(hash, key, value, null);
         else { //如果存放的位置已经有值
             Node<K, V> e;
@@ -668,14 +668,14 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                 V oldValue = e.value;//记录下原来的key对应的value
                 if (!onlyIfAbsent || oldValue == null)//当onlyIfAbsent为false或者旧值为空
                     e.value = value;//替换新的value并返回旧的value
-                afterNodeAccess(e);
+                afterNodeAccess(e);//HashMap中暂无实现
                 return oldValue;//返回旧值，这样就处理掉了前面的当key值相同时的情况了。
             }
         }
-        ++modCount;// 每次容器编号记录
+        ++modCount;// 每次容器发生变化记录
         if (++size > threshold)// 实际大小大于阈值则扩容
             resize();//如果当前HashMap的容量超过threshold则进行扩容
-        afterNodeInsertion(evict);
+        afterNodeInsertion(evict);//HashMap中暂无实现
         return null;
     }
 
@@ -818,28 +818,28 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * @param hash       hash for key
      * @param key        the key
      * @param value      the value to match if matchValue, else ignored
-     * @param matchValue if true only remove if value is equal
-     * @param movable    if false do not move other nodes while removing
+     * @param matchValue if true only remove if value is equal remove()==>false
+     * @param movable    if false do not move other nodes while removing remove()==>true
      * @return the node, or null if none
      */
     final Node<K, V> removeNode(int hash, Object key, Object value,
                                 boolean matchValue, boolean movable) {
-        Node<K, V>[] tab;
-        Node<K, V> p;
+        Node<K, V>[] tab;//table
+        Node<K, V> p;//待删除的节点
         int n, index;
         if ((tab = table) != null && (n = tab.length) > 0 &&
-                (p = tab[index = (n - 1) & hash]) != null) {
+                (p = tab[index = (n - 1) & hash]) != null) {//如果table下面不为空(存在链表或者红黑树)
             Node<K, V> node = null, e;
             K k;
             V v;
             if (p.hash == hash &&
                     ((k = p.key) == key || (key != null && key.equals(k))))
-                node = p;
-            else if ((e = p.next) != null) {
-                if (p instanceof TreeNode)
-                    node = ((TreeNode<K, V>) p).getTreeNode(hash, key);
+                node = p;//table对应的就是删除的对象
+            else if ((e = p.next) != null) {//p后面还有节点
+                if (p instanceof TreeNode)//p下面是红黑树
+                    node = ((TreeNode<K, V>) p).getTreeNode(hash, key);//红黑树查找
                 else {
-                    do {
+                    do {//遍历链表查询待删除的节点
                         if (e.hash == hash &&
                                 ((k = e.key) == key ||
                                         (key != null && key.equals(k)))) {
@@ -852,11 +852,11 @@ public class HashMap<K, V> extends AbstractMap<K, V>
             }
             if (node != null && (!matchValue || (v = node.value) == value ||
                     (value != null && value.equals(v)))) {
-                if (node instanceof TreeNode)
+                if (node instanceof TreeNode)//删除红黑树
                     ((TreeNode<K, V>) node).removeTreeNode(this, tab, movable);
-                else if (node == p)
+                else if (node == p)//删除table[i]  node的下一个节点
                     tab[index] = node.next;
-                else
+                else//删除p节点
                     p.next = node.next;
                 ++modCount;
                 --size;
@@ -1981,7 +1981,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
          */
         final void treeify(Node<K, V>[] tab) {
             TreeNode<K, V> root = null;//根节点
-            for (TreeNode<K, V> x = this, next; x != null; x = next) {
+            for (TreeNode<K, V> x = this, next; x != null; x = next) {//遍历链表
                 next = (TreeNode<K, V>) x.next;
                 x.left = x.right = null;
                 if (root == null) {//确认根节点
@@ -2012,7 +2012,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                             else
                                 xp.right = x;
                             root = balanceInsertion(root, x);
-                            break;
+                            break;//找到插入的位置结束
                         }
                     }
                 }
@@ -2197,13 +2197,13 @@ public class HashMap<K, V> extends AbstractMap<K, V>
          * or untreeifies if now too small. Called only from resize;
          * see above discussion about split bits and indices.
          *
-         * @param map   the map
-         * @param tab   the table for recording bin heads
-         * @param index the index of the table being split
-         * @param bit   the bit of hash to split on
+         * @param map   the map 当前map对象
+         * @param tab   the table for recording bin heads  新的table
+         * @param index the index of the table being split table对应的下标
+         * @param bit   the bit of hash to split on 之前的容量
          */
         final void split(HashMap<K, V> map, Node<K, V>[] tab, int index, int bit) {
-            TreeNode<K, V> b = this;
+            TreeNode<K, V> b = this;//当前红黑树
             // Relink into lo and hi lists, preserving order
             TreeNode<K, V> loHead = null, loTail = null;
             TreeNode<K, V> hiHead = null, hiTail = null;
@@ -2350,7 +2350,7 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                     x.red = false;
                     return root;
                 } else if ((xpl = xp.left) == x) {//x是父节点的左节点
-                    if ((xpr = xp.right) != null && xpr.red) {//如果父节点的右节点(叔叔节点)不等于空 并且为红色
+                    if ((xpr = xp.right) != null && xpr.red) {//如果父节点的右节点(兄弟节点)不等于空 并且为红色
                         xpr.red = false;
                         xp.red = true;
                         root = rotateLeft(root, xp);//左旋
@@ -2358,14 +2358,14 @@ public class HashMap<K, V> extends AbstractMap<K, V>
                     }
                     if (xpr == null)
                         x = xp;
-                    else {//如果叔叔节点不为空
+                    else {//如果兄弟节点不为空
                         TreeNode<K, V> sl = xpr.left, sr = xpr.right;
                         if ((sr == null || !sr.red) &&
-                                (sl == null || !sl.red)) {//如果叔叔节点没有子节点 或者都为黑节点
+                                (sl == null || !sl.red)) {//如果兄弟节点没有子节点 或者都为黑节点
                             xpr.red = true;
                             x = xp;//继续往上递归
                         } else {
-                            if (sr == null || !sr.red) {//如果叔叔节点的右节点是黑色
+                            if (sr == null || !sr.red) {//如果兄弟节点的右节点是黑色
                                 if (sl != null)//先变色
                                     sl.red = false;
                                 xpr.red = true;

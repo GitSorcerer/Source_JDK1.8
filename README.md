@@ -1,15 +1,10 @@
 ## 不瞒你说，我最近跟Java源码杠上了
-
-
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLribkNPSZpt28Qic1iagqGy1F24SiaHic3QL8G5WyEtaYPtbtiatTq5Ys0Z3Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
-
-------
-
+ 
 ## 为什么要读JDK源码
 
 当然不是为了装，毕竟谁没事找事虐自己 ...
 
-![img](https://mmbiz.qpic.cn/mmbiz_gif/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLQOEQpe60trRHiatUugKR5qxB1YC7ItzBSVt97ZEXlxRwh8JW04hBf1Q/640?wx_fmt=gif&tp=webp&wxfrom=5&wx_lazy=1)
+![img](https://img-blog.csdnimg.cn/20210125091208143.gif)
 
 1、**面试跑不掉**。现在只要面试Java相关的岗位，肯定或多或少会会涉及JDK源码相关的问题。
 
@@ -24,8 +19,6 @@
 ## 源码难吗？
 
 废话，当然有难度啦，不然我也不会到现在都还没看完，而且看了也经常忘，哭唧唧...
-
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLg3hKibiaeFjic5B4YyWIqODnrw0eDDhn2iaSlBudez0aK60RoWDbkXXTGQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 毕竟像JDK这种源码，和我们平常练手写小例子、写业务代码不一样，人家毕竟是 **类库**，为了**性能**、**稳定性**、**通用性**，**扩展性**等因素考虑，加入了很多**辅助代码**、**泛型**、以及一些**设计模式**上的考量，所以看起来肯定没有那么轻松，**没办法一眼看穿它**。
 
@@ -57,7 +50,7 @@
 
 选择最普通的Java基础项目即可：
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLbIempkFwZJ5HyWjLICzqcFzHpUF2VJAib0u8hcLSfzUB7RrzuPIWTUQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208386.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 **2、创建两个目录**
 
@@ -66,7 +59,7 @@
 - `source`：稍后放置JDK源码进去
 - `test`：放置测试代码，里面还可以按需要建立层级子目录
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLMNK24iclt4jQHPw5AHILdcncc3XJCaxNH2reOIOQ89HfZzNiaXWTRb4w/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125092124186.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70#pic_center)
 
 **3、导入JDK源码**
 
@@ -76,11 +69,11 @@
 
 JDK安装目录下有一个名为`src.zip`压缩包，这正是JDK源码！
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLg9LdibiaqGbBiaNbTvACmicYKrhGq8oYqIa3pTmZZBNnibfEibnlt7CWwIcQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 将其解压后拷贝到上面项目的`source`目录下，这样JDK源码就导入好了。
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GL3N9qDS4WmfBDe4yLicU9pGw7JxickhNmtWiaxFZwic7aIDB4Q8IRzGLf4g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208369.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 有些小伙伴会有疑问，**为什么要将JDK源码导一份放到这个项目里****？**其实主要原因还是方便我们在源码里阅读、调试、以及做笔记和注释。
 
@@ -116,13 +109,13 @@ public static void main( String[] args ) {
 
 **问题一：启动调试时Build报错，提示系统资源不足**
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GL4PQnPYm6aSCc5WOiaN6SOuOkc4PibyUGVmfiaVELrkZNQdMY4oPBF82GQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208412.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 **解决方法：** 加大`Build process heap size`。
 
 设置方法：`Preferences --> Build,Execution,Deployment --> Compiler`，将默认`700`的数值加大，比如我这里设置为`1700`：
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLlz1uZyjCKJChpbh88w5W0esric66PcDBDja279XKGvPjkZpYAX6JKlw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 **问题二：想从外层代码F7单步调试进入JDK源码内部，结果发现进不去**
 
@@ -134,7 +127,7 @@ public static void main( String[] args ) {
 Preferences --> Build,Execution,Deployment --> Debugger --> Stepping
 ```
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLctOS0sOsdETgaQ1G1R5NUb5hgeK2akXsAmUib3MzRM315ONqnVJia1zg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208361.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 **问题三：如何对JDK源码做注释？**
 
@@ -142,7 +135,7 @@ Preferences --> Build,Execution,Deployment --> Debugger --> Stepping
 
 **解决办法：** 重新关联JDK源码路径为本项目路径下的这一份JDK源码。
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GLqvFY7DeZhQhhicj1HnqiaPlNx4WIjWbZxAukTjPzvI8VbicUA2kN2Sx7g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208362.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 这样一来，我们就可以愉快地对JDK源码调试以及做注释了。
 
@@ -154,7 +147,7 @@ JDK源码毕竟太庞大了，所有都看不太现实，我们还是愿意根�
 
 如果自己没有特别的规划，可以按照如下所示的建议阅读顺序往下进行：
 
-![img](https://mmbiz.qpic.cn/mmbiz_png/xq9PqibkVAzo7kPxibSNTFvENnsVHicic8GL6cf9rhibvKXVAkvBGJEenticDfYfQKkyVh6W7nkw1bsu4kpxIAdkXMbw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](https://img-blog.csdnimg.cn/20210125091208371.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NoaWFuejYzMg==,size_16,color_FFFFFF,t_70)
 
 具体的内容简介如下：
 
@@ -205,6 +198,9 @@ JDK源码毕竟太庞大了，所有都看不太现实，我们还是愿意根�
 **12、`java.net`**
 
 主要包含Java网络通信（典型的如：`Socket`通信）相关的源代码。
+
+
+该文档来源：b站程序羊
 
 
 Spring5

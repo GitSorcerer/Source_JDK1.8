@@ -795,13 +795,13 @@ public abstract class AbstractQueuedSynchronizer
     private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
         int ws = pred.waitStatus;
         if (ws == Node.SIGNAL)
-            /*
+            /* 该节点已经设置了状态，要求释放以发出信号，以便可以安全地停放。
              * This node has already set status asking a release
              * to signal it, so it can safely park.
              */
             return true;
         if (ws > 0) {
-            /*
+            /* 前任已取消。跳过前任并指示重试。
              * Predecessor was cancelled. Skip over predecessors and
              * indicate retry.
              */
@@ -810,12 +810,12 @@ public abstract class AbstractQueuedSynchronizer
             } while (pred.waitStatus > 0);
             pred.next = node;
         } else {
-            /*
+            /* waitStatus必须为0或PROPAGATE。表示我们需要一个信号，但不要park。呼叫者将需要重试以确保在park之前无法获取。
              * waitStatus must be 0 or PROPAGATE.  Indicate that we
              * need a signal, but don't park yet.  Caller will need to
              * retry to make sure it cannot acquire before parking.
              */
-            compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+            compareAndSetWaitStatus(pred, ws, Node.SIGNAL);////将前驱节点的head中的waitStatus改为-1
         }
         return false;
     }
@@ -834,7 +834,7 @@ public abstract class AbstractQueuedSynchronizer
      */
     private final boolean parkAndCheckInterrupt() {
         LockSupport.park(this);
-        return Thread.interrupted();
+        return Thread.interrupted();//判断是否被打断 并清除打断标记（下次还可以继续park）
     }
 
     /*
@@ -859,15 +859,15 @@ public abstract class AbstractQueuedSynchronizer
         try {
             boolean interrupted = false;
             for (;;) {
-                final Node p = node.predecessor();
-                if (p == head && tryAcquire(arg)) {
+                final Node p = node.predecessor();//node的前驱节点
+                if (p == head && tryAcquire(arg)) {//如果前驱节点就是头节点 那么就尝试获取锁
                     setHead(node);
                     p.next = null; // help GC
                     failed = false;
                     return interrupted;
                 }
                 if (shouldParkAfterFailedAcquire(p, node) &&
-                    parkAndCheckInterrupt())
+                    parkAndCheckInterrupt())//park
                     interrupted = true;
             }
         } finally {
@@ -895,7 +895,7 @@ public abstract class AbstractQueuedSynchronizer
                 }
                 if (shouldParkAfterFailedAcquire(p, node) &&
                     parkAndCheckInterrupt())
-                    throw new InterruptedException();
+                    throw new InterruptedException();//打断后抛出异常
             }
         } finally {
             if (failed)
@@ -1197,7 +1197,7 @@ public abstract class AbstractQueuedSynchronizer
     public final void acquire(int arg) {
         if (!tryAcquire(arg) &&
             acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
-            selfInterrupt();
+            selfInterrupt();//如果打断返回为true  重新产生中断(导致不可中断)
     }
 
     /**
@@ -1516,8 +1516,8 @@ public abstract class AbstractQueuedSynchronizer
         Node t = tail; // Read fields in reverse initialization order
         Node h = head;
         Node s;
-        return h != t &&
-            ((s = h.next) == null || s.thread != Thread.currentThread());
+        return h != t &&//队列中有节点
+            ((s = h.next) == null || s.thread != Thread.currentThread());//队列中有第二个节点，并且不是当前线程
     }
 
 

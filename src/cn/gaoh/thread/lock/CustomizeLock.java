@@ -12,6 +12,12 @@ import java.util.concurrent.locks.Lock;
  * @Version: 1.0
  */
 public class CustomizeLock implements Lock {
+    private LockSync sync;
+
+    public CustomizeLock() {
+        sync = new LockSync();
+    }
+
     /**
      * 独占锁
      */
@@ -47,7 +53,6 @@ public class CustomizeLock implements Lock {
         }
     }
 
-    private LockSync sync = new LockSync();
 
     /**
      * 获取锁 获取不到就入队

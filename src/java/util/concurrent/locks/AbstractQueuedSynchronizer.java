@@ -384,39 +384,39 @@ public abstract class AbstractQueuedSynchronizer
         static final Node EXCLUSIVE = null;
 
         /** waitStatus value to indicate thread has cancelled */
-        static final int CANCELLED =  1;
+        static final int CANCELLED =  1;//waitStatus值为1时表示该线程节点已释放（超时、中断），已取消的节点不会再阻塞。
         /** waitStatus value to indicate successor's thread needs unparking */
-        static final int SIGNAL    = -1;
+        static final int SIGNAL    = -1;//waitStatus为-1时表示该线程的后续线程需要阻塞，即只要前置节点释放锁，就会通知标识为 SIGNAL 状态的后续节点的线程
         /** waitStatus value to indicate thread is waiting on condition */
-        static final int CONDITION = -2;
+        static final int CONDITION = -2;//waitStatus为-2时，表示该线程在condition队列中阻塞（Condition有使用）
         /**
          * waitStatus value to indicate the next acquireShared should
          * unconditionally propagate
          */
-        static final int PROPAGATE = -3;
+        static final int PROPAGATE = -3;//waitStatus为-3时，表示该线程以及后续线程进行无条件传播（CountDownLatch中有使用）共享模式下， PROPAGATE 状态的线程处于可运行状态
 
         /**
-         * Status field, taking on only the values:
-         *   SIGNAL:     The successor of this node is (or will soon be)
+         * Status field, taking on only the values:                          此节点的后继者被（或将很快）阻塞（通过park），
+         *   SIGNAL:     The successor of this node is (or will soon be)     因此，当前节点在释放或取消时必须释放其后继者
          *               blocked (via park), so the current node must
          *               unpark its successor when it releases or
-         *               cancels. To avoid races, acquire methods must
-         *               first indicate they need a signal,
-         *               then retry the atomic acquire, and then,
+         *               cancels. To avoid races, acquire methods must       为避免冲突，acquire方法首先必须表明他们需要一个信号
+         *               first indicate they need a signal,                  然后重试原子获取，然后在失败时阻塞。
+         *               then retry the atomic acquire, and then,            然后重试原子获取，然后，失败时阻塞
          *               on failure, block.
-         *   CANCELLED:  This node is cancelled due to timeout or interrupt.
-         *               Nodes never leave this state. In particular,
-         *               a thread with cancelled node never again blocks.
-         *   CONDITION:  This node is currently on a condition queue.
-         *               It will not be used as a sync queue node
-         *               until transferred, at which time the status
+         *   CANCELLED:  This node is cancelled due to timeout or interrupt. 由于超时或中断节点取消该节点，
+         *               Nodes never leave this state. In particular,        因此该节点永远不会离开此状态。
+         *               a thread with cancelled node never again blocks.    特别是，具有取消节点的线程永远不会再次阻塞。
+         *   CONDITION:  This node is currently on a condition queue.        该节点当前在条件队列中
+         *               It will not be used as a sync queue node            在使用之前，它不会用作同步队列节点，
+         *               until transferred, at which time the status         到那时，状态将设置为0。（此处使用此值与该字段的其他用途无关，但简化了机制。）
          *               will be set to 0. (Use of this value here has
          *               nothing to do with the other uses of the
          *               field, but simplifies mechanics.)
-         *   PROPAGATE:  A releaseShared should be propagated to other
-         *               nodes. This is set (for head node only) in
-         *               doReleaseShared to ensure propagation
-         *               continues, even if other operations have
+         *   PROPAGATE:  A releaseShared should be propagated to other       releaseShared应该传播到其他节点。
+         *               nodes. This is set (for head node only) in          在doReleaseShared中对此进行了设置（仅适用于头节点），
+         *               doReleaseShared to ensure propagation               以确保传播继续进行，
+         *               continues, even if other operations have            即使此后进行了其他操作也是如此。
          *               since intervened.
          *   0:          None of the above
          *

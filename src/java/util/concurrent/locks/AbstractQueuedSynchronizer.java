@@ -378,9 +378,9 @@ public abstract class AbstractQueuedSynchronizer
      * on the design of this class.
      */
     static final class Node {
-        /** Marker to indicate a node is waiting in shared mode */
+        /** Marker to indicate a node is waiting in shared mode   共享*/
         static final Node SHARED = new Node();
-        /** Marker to indicate a node is waiting in exclusive mode */
+        /** Marker to indicate a node is waiting in exclusive mode  独占*/
         static final Node EXCLUSIVE = null;
 
         /** waitStatus value to indicate thread has cancelled */

@@ -15,7 +15,7 @@ public class ThreadLock {
 
     public static void main(String[] args) {
 
-        new Thread(() -> {
+        /*new Thread(() -> {
             for (int i = 0; i < 5; i++) {
                 add();
             }
@@ -29,13 +29,25 @@ public class ThreadLock {
             for (int i = 0; i < 5; i++) {
                 add();
             }
-        }, "t3").start();
+        }, "t3").start();*/
+
+        new Thread(() -> {
+            for (int i = 0; i < 5; i++) {
+                if (i == 2) {
+                    Thread.currentThread().interrupt();
+//                    Thread.interrupted();
+//                    Thread.currentThread().isInterrupted();
+                }
+                System.out.println("i:" + (i + 1));
+            }
+        }).start();
 
     }
 
     public static void add() {
         try {
             lock.lock();
+            lock.lockInterruptibly();
             TimeUnit.SECONDS.sleep(1);
             System.out.println("ThreadName:" + Thread.currentThread().getName() + " num:" + num++);
         } catch (Exception e) {

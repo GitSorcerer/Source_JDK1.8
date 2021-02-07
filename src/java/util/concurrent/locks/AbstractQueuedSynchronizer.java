@@ -1671,7 +1671,7 @@ public abstract class AbstractQueuedSynchronizer
         /*
          * If cannot change waitStatus, the node has been cancelled.
          */
-        if (!compareAndSetWaitStatus(node, Node.CONDITION, 0))
+        if (!compareAndSetWaitStatus(node, Node.CONDITION, 0))//CHL队列尾节点一定为0
             return false;
 
         /*
@@ -1680,10 +1680,10 @@ public abstract class AbstractQueuedSynchronizer
          * attempt to set waitStatus fails, wake up to resync (in which
          * case the waitStatus can be transiently and harmlessly wrong).
          */
-        Node p = enq(node);
+        Node p = enq(node);//加入等待队列 返回上一个节点的状态
         int ws = p.waitStatus;
-        if (ws > 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))
-            LockSupport.unpark(node.thread);
+        if (ws > 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))//>0 表示取消
+            LockSupport.unpark(node.thread);//唤醒
         return true;
     }
 
@@ -1872,7 +1872,7 @@ public abstract class AbstractQueuedSynchronizer
                 if ( (firstWaiter = first.nextWaiter) == null)
                     lastWaiter = null;
                 first.nextWaiter = null;
-            } while (!transferForSignal(first) &&
+            } while (!transferForSignal(first) &&//将当前线程转移到等待队列   可能被打断 超时放弃竞争导致失败
                      (first = firstWaiter) != null);
         }
 
@@ -2032,8 +2032,8 @@ public abstract class AbstractQueuedSynchronizer
         public final void await() throws InterruptedException {
             if (Thread.interrupted())
                 throw new InterruptedException();
-            Node node = addConditionWaiter();
-            int savedState = fullyRelease(node);
+            Node node = addConditionWaiter();//添加到等待队列
+            int savedState = fullyRelease(node);//锁可能是重入的 所以需要fullyRelease   释放线程所有占用的锁
             int interruptMode = 0;
             while (!isOnSyncQueue(node)) {
                 LockSupport.park(this);
